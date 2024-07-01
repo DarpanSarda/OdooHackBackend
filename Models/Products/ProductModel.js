@@ -20,7 +20,7 @@ const ProductSchema = mongoose.Schema({
     renter:{
         type:String
     },
-    Image:[
+    Image:
         {
             image1:{
                 type:String,
@@ -34,8 +34,7 @@ const ProductSchema = mongoose.Schema({
             image4:{
                 type:String,
             }
-        }
-    ],
+        },
     color:{
         type:String
     },
