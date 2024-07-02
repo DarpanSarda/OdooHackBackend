@@ -25,7 +25,7 @@ const AddItemtoCart = async(req,res)=>{
         const createdCartItem = await CartItem.save();
         console.log("crertreteeee",createdCartItem)
         console.log(typeof(cart.cartItems))
-        cart.CartItems.push(createdCartItem);
+        cart.cartItems.push(createdCartItem);
         await cart.save();
         return res.status(200).send(createdCartItem);
         }
