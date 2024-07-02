@@ -13,6 +13,6 @@ router.put("/:id",authenticate,UpdateProduct);
 router.delete("/:id",authenticate,DeleteProduct);
 router.get("/:id",authenticate,GetProductById);
 router.get("/",authenticate,GetAllProducts);
-router.get("/cat",GetProductByCategory);
+router.get("/category/search",authenticate,GetProductByCategory);
 
 module.exports=router;

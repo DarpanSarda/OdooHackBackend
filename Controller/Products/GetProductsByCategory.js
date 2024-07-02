@@ -1,10 +1,11 @@
 const ProductModel = require("../../Models/Products/ProductModel");
 
 const GetProductByCategory = async(req,res)=>{
+    console.log("hello")
     try {
         const {parentcategory,category} = req.query;
         const product = await ProductModel.find({ParentCategory:parentcategory, Category:category});
-        console.log(product)
+        console.log("cattt",product)
         if(!product)
         {
             return res.status(404).send({
