@@ -7,7 +7,7 @@ const OrderHistory = async (req,res)=>{
             user:user,
             orderStatus : "Placed",
         }).populate({path:"orderItems",populate:{path:"products"}}).lean();
-
+        
         return res.status(200).send(orders);
 
     } catch (error) {

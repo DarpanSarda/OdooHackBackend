@@ -22,22 +22,26 @@ const CreateOrder = async(req,res)=>{
             user.address.push(address);
             await user.save();
         }
+        console.log(address)
         let cart = await CartModel.findOne({user:user._id});
+        console.log(cart)
         let cartItems = await CartItemModel.find({cart:cart._id});
+        console.log("cartItemssssss :  ",cartItems)
         cart.cartItems = cartItems;
         let totalPrice = 0;
         let totalItem=0;
-        for(let cartIt of cart.cartItems)
+        for(let cartIt of cartItems)
         {
             totalPrice+=cartIt.price;
             totalItem+=cartIt.quantity;
         }
         cart.totalPrice = totalPrice;
         cart.totalItem = totalItem;
+        console.log("total price  :  ",totalPrice)
         
-        const orderItems = [];
+        let orderItems = [];
 
-        for (const item of cart.cartItems) {
+        for (const item of cartItems) {
             const orderItem = new OrderItemModel({
                 price: item.price,
                 product: item.product,
@@ -45,20 +49,24 @@ const CreateOrder = async(req,res)=>{
                 dimension:item.dimesnsion,
                 userId:item.userId
             })
+            console.log("order Item  ?:  ",orderItem)
             const createdOrderItem = await orderItem.save();
+            console.log(createdOrderItem)
             orderItems.push(createdOrderItem);
+            console.log(orderItems)
         }
-
+        console.log(cart.totalPrice)
         const createdOrder = new OrderModel({
             user,
             orderItems:orderItems._id,
-            price:cart.totalPrice,
+            totalPrice:cart.totalPrice,
             totalItem:cart.totalItem,
+
             shipAddress:address,
         })
+        console.log("createdOrder   :: " , createdOrder.totalItem)
 
-        const savedOrder = createdOrder.save();
-
+        const savedOrder = await createdOrder.save();
         return res.status(200).send(savedOrder);
     } catch (error) {
         return res.status(500).send({

@@ -3,8 +3,10 @@ const UserModel = require("../../Models/User/UserModel");
 
 const RemoveCartItem = async(req,res)=>{
     const user = req.user;
+    console.log(req.params)
     try {
-        const cartItem = await CartItemModel.findById(req.params).populate("products");
+        const cartItem = await CartItemModel.findById(req.params.id);
+        console.log(cartItem)
         if(!cartItem)
         {
             return res.status(400).send({
@@ -22,15 +24,19 @@ const RemoveCartItem = async(req,res)=>{
             }
         if(userfind._id.toString() === cartItem.userId.toString())
         {
-            await CartItemModel.findByIdAndDelete(req.params);
+            await CartItemModel.findByIdAndDelete(req.params.id);
+            return res.status(200).send({
+                message:"Item Deleted ",
+                success:true
+            })
         }
         else
-            {
-                return res.status(404).send({
-                    message:"Not Found",
-                    status:false
-                })
-            }
+        {
+            return res.status(404).send({
+                message:"Not Found",
+                status:false
+            })
+        }
     } catch (error) {
         return res.status(500).send({
             success:false,

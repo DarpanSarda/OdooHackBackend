@@ -2,7 +2,7 @@ const OrderModel = require("../../Models/Order/OrderModel");
 
 const findOrderByid = async(req,res)=>{
     try {
-        const order = await OrderModel.findById(req.params.id).populate('users').populate({path: "orderItems", populate:{path:'products'}}).populate('shippingAddress');
+        const order = await OrderModel.findById(req.params.id).populate('user').populate({path: "orderItems", populate:{path:'products'}}).populate('shippingAddress');
         
         return res.status(200).send(order);
     } catch (error) {

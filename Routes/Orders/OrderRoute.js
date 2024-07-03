@@ -8,6 +8,6 @@ const OrderHistory = require('../../Controller/Orders/OrderHistory');
 
 router.get("/:id",authenticate,findOrderByid);
 router.post("/",authenticate,CreateOrder);
-router.get("/orders",authenticate,OrderHistory);
+router.get("/orders/yourorders",authenticate,OrderHistory);
 
 module.exports = router;

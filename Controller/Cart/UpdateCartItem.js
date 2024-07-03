@@ -5,7 +5,7 @@ const UpdateCartItem = async(req,res)=>{
     const userId = req.user._id;
     const cartItemId = req.params.id;
     try {
-        const item = await CartItemModel.findById(cartItemId).populate('products');
+        const item = await CartItemModel.findById(cartItemId);
         if(!item)
         {
             return res.status(404).send({
@@ -13,6 +13,7 @@ const UpdateCartItem = async(req,res)=>{
                 status:false
             })
         }    
+        console.log("item",item)
         const user = await UserModel.findById(item.userId)
         if(!user)
         {
@@ -23,8 +24,12 @@ const UpdateCartItem = async(req,res)=>{
         }
         if(user._id.toString() === item.userId.toString())
         {
+            console.log(typeof(item.price))
+            console.log(typeof(req.body.quantity))
             item.quantity = req.body.quantity;
-            item.price = item.quantity * item.product.price;
+            console.log(item.quantity)
+            item.price = item.quantity * item.price;
+            console.log(item.price)
             const updatedcartItem = await item.save();
             return res.status(200).send(updatedcartItem);
         }    
