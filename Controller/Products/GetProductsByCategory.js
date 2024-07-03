@@ -4,7 +4,15 @@ const GetProductByCategory = async(req,res)=>{
     console.log("hello")
     try {
         const {parentcategory,category} = req.query;
-        const product = await ProductModel.find({ParentCategory:parentcategory, Category:category});
+        let product = []
+        if(!parentcategory)
+        {
+            product = await ProductModel.find({Category:category});
+        }
+        else
+        {    
+            product = await ProductModel.find({ParentCategory:parentcategory, Category:category});
+        }
         console.log("cattt",product)
         if(!product)
         {
