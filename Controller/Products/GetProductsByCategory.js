@@ -9,14 +9,14 @@ const GetProductByCategory = async(req,res)=>{
         if(!parentcategory)
         {
             let parcat = await CategoryModel.find({name:category});
-            product = await ProductModel.find({Category:parcat._id});
+            product = await ProductModel.find({Category:parcat._id}).populate("ParentCategory").populate("Category");
         }
         else
         {    
             let parcat = await CategoryModel.find({name:parentcategory});
             let chcat = await CategoryModel.find({name:category});
 
-            product = await ProductModel.find({ParentCategory:parcat._id, Category:chcat._id});
+            product = await ProductModel.find({ParentCategory:parcat._id, Category:chcat._id}).populate("ParentCategory").populate("Category");
         }
         console.log("cattt",product)
         if(!product)
