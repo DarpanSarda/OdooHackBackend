@@ -1,3 +1,4 @@
+const CategoryModel = require("../../Models/Category/CategoryModel");
 const ProductModel = require("../../Models/Products/ProductModel");
 
 const GetProductByCategory = async(req,res)=>{
@@ -7,11 +8,15 @@ const GetProductByCategory = async(req,res)=>{
         let product = []
         if(!parentcategory)
         {
-            product = await ProductModel.find({Category:category});
+            let parcat = await CategoryModel.find({name:category});
+            product = await ProductModel.find({Category:parcat._id});
         }
         else
         {    
-            product = await ProductModel.find({ParentCategory:parentcategory, Category:category});
+            let parcat = await CategoryModel.find({name:parentcategory});
+            let chcat = await CategoryModel.find({name:category});
+
+            product = await ProductModel.find({ParentCategory:parcat._id, Category:chcat._id});
         }
         console.log("cattt",product)
         if(!product)

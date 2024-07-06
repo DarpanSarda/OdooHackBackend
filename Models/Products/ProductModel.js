@@ -42,10 +42,12 @@ const ProductSchema = mongoose.Schema({
         type:String,
     },
     ParentCategory:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'category',
     },
     Category:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'category',
     },
     createdAt:{
         type:Date,

@@ -1,15 +1,35 @@
+const CategoryModel = require("../../Models/Category/CategoryModel");
 const ProductModel = require("../../Models/Products/ProductModel");
 
 const AddProduct = async(req,res)=>{
-    let{Name,description,price,quantity,brand,renter,parentCategory,category,color,dimension} = req.body;
+    let{Name,description,price,quantity,brand,renter,ParentCategory,Category,color,dimension} = req.body;
     let{image1}=req.body.Image;
     let{image2}=req.body.Image;
     let{image3}=req.body.Image;
     let{image4}=req.body.Image;
-    
+    console.log(dimension)
     try {
-        console.log(req.body.Image[1])
-        console.log(image1,image2)
+        let parcat = await CategoryModel.findOne({name:ParentCategory});
+        console.log(parcat)
+        if(!parcat)
+        {
+            parcat = new CategoryModel({
+                name:ParentCategory,
+                level:'parent',
+            })
+            await parcat.save();
+        }
+        console.log(parcat)
+        let chcat = await CategoryModel.findOne({name:Category})
+        if(!chcat)
+        {
+            chcat = new CategoryModel({
+                name:Category,
+                level:'child',
+            })
+            await chcat.save();
+        }
+        console.log(chcat)
         const Product = new ProductModel({
             Name:Name,
             description:description,
@@ -26,8 +46,8 @@ const AddProduct = async(req,res)=>{
                 },
             color:color,
             Dimensions:dimension,
-            ParentCategory:parentCategory,
-            Category:category,
+            ParentCategory:parcat._id,
+            Category:chcat._id,
         })
         console.log(Product.Image)
         Product.save();

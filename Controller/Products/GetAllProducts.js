@@ -2,7 +2,7 @@ const ProductModel = require("../../Models/Products/ProductModel")
 
 const GetAllProducts = async(req,res)=>{
     try {
-        const products = await ProductModel.find();
+        const products = await ProductModel.find().populate("ParentCategory").populate("Category");
         if(!products)
         {
             return res.status(404).send({

@@ -5,6 +5,7 @@ const AuthRoute = require('./Routes/UserAuth/AuthRoute.js')
 const CartRoute = require('./Routes/Cart/CartRoute.js')
 const ProductRoute = require('./Routes/Products/ProductRoute.js')
 const OrderRoute = require('./Routes/Orders/OrderRoute.js')
+const PaymentRoute = require('./Routes/Payment/PaymentRoute.js')
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/api/v1/auth",AuthRoute);
 app.use("/api/v1/cart",CartRoute);
 app.use("/api/v1/product",ProductRoute);
 app.use("/api/v1/order",OrderRoute);
+app.use("/api/v1/payment",PaymentRoute);
 
 app.listen(3001,async()=>{
     await DbConnect();
