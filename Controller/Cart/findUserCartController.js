@@ -5,7 +5,7 @@ const findUserCartController = async(req,res)=>{
     const user = req.user;
     try {
         let cart = await CartModel.findOne({user:user._id});
-        let cartItems = await CartItemModel.find({cart:cart._id});
+        let cartItems = await CartItemModel.find({cart:cart._id}).populate('product');
 
         cart.cartItems = cartItems;
         let totalPrice = 0;
